@@ -133,7 +133,7 @@ function computed_field_field_large_required_conclusion_compute(&$entity_field, 
 }
 
 function computed_field_field_large_lean_score_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
-  // Start by adding up the points of the selected sizings.
+  // Start by adding up the points of the selected sizing items.
 	$large_points = 0;
 	foreach ($entity->field_sizing['und'] as $sizing_item) {
 		$sizing_items[] = $sizing_item['target_id'];
@@ -143,7 +143,7 @@ function computed_field_field_large_lean_score_compute(&$entity_field, $entity_t
 		$large_points += $circumstance->field_large_lean['und'][0]['value'];
 	}
 
-	// Then get a total of all sizings.
+	// Then get a total of all sizing items.
 	$all_sizings = taxonomy_get_tree(2,0,null,true); // Bad practice to use the vid here - being lazy.
 	$total_points = 0;
 	foreach ($all_sizings as $circumstance) {
@@ -155,7 +155,7 @@ function computed_field_field_large_lean_score_compute(&$entity_field, $entity_t
 }
 
 function computed_field_field_risk_score_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
-	// Start by adding up the points of the selected sizings.
+	// Start by adding up the points of the selected sizing items.
 	$risk_points = 0;
 	foreach ($entity->field_sizing['und'] as $sizing_item) {
 		$sizing_items[] = $sizing_item['target_id'];
@@ -166,7 +166,7 @@ function computed_field_field_risk_score_compute(&$entity_field, $entity_type, $
 		$risk_points += $risk->field_value['und'][0]['value'];
 	}
 
-	// Then get a total of all sizings.
+	// Then get a total of all sizing items.
 	$all_sizings = taxonomy_get_tree(2,0,null,true); // Bad practice to use the vid here - being lazy.
 	$total_points = 0;
 	foreach ($all_sizings as $circumstance) {
@@ -217,7 +217,7 @@ function computed_field_field_sizing_recommendation_compute(&$entity_field, $ent
 }
 
 function computed_field_field_large_lean_profile_score_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
-  // Start by adding up the points of the selected sizings.
+  // Start by adding up the points of the selected profile items.
 	$large_points = 0;
 	foreach ($entity->field_profile['und'] as $profile_item) {
 		$profile_items[] = $profile_item['target_id'];
@@ -227,7 +227,7 @@ function computed_field_field_large_lean_profile_score_compute(&$entity_field, $
 		$large_points += $circumstance->field_large_lean['und'][0]['value'];
 	}
 
-	// Then get a total of all sizings.
+	// Then get a total of all profile items.
 	$all_profile_items = taxonomy_get_tree(2,0,null,true); // Bad practice to use the vid here - being lazy.
 	$total_points = 0;
 	foreach ($all_profile_items as $circumstance) {
@@ -238,9 +238,8 @@ function computed_field_field_large_lean_profile_score_compute(&$entity_field, $
 	$entity_field[0]['value'] = round(($large_points/$total_points)*100);
 }
 
-
 function computed_field_field_risk_profile_score_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
-	// Start by adding up the points of the selected sizings.
+	// Start by adding up the points of the selected profile items.
 	$risk_points = 0;
 	foreach ($entity->field_profile['und'] as $profile_item) {
 		$profile_items[] = $profile_item['target_id'];
@@ -251,7 +250,7 @@ function computed_field_field_risk_profile_score_compute(&$entity_field, $entity
 		$risk_points += $risk->field_value['und'][0]['value'];
 	}
 
-	// Then get a total of all sizings.
+	// Then get a total of all profile items.
 	$all_profile_items = taxonomy_get_tree(2,0,null,true); // Bad practice to use the vid here - being lazy.
 	$total_points = 0;
 	foreach ($all_profile_items as $circumstance) {
