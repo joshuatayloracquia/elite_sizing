@@ -1,0 +1,118 @@
+<?php 
+
+function elite_sizing_menu() {
+
+  $items = array();
+
+  $items['admin/config/elite-sizing'] = array(
+    'title' => 'Elite Sizing',
+    'description' => 'Configure elite sizing thresholds.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('elite_sizing_admin'),
+    'access arguments' => array('administer site configuration'),
+   );
+   
+   $items['admin/config/elite-sizing/thresholds'] = array(
+    'title' => 'Sizing Thresholds',
+    'description' => 'This is where sizing thresholds for elite accounts are defined.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('elite_sizing_thresholds_admin'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+function elite_sizing_admin($form, &$form_state) {
+  $form = array();
+
+  return system_settings_form($form);
+}
+
+function elite_sizing_thresholds_admin($form, &$form_state) {
+  $form = array();
+
+  $form['elite_sizing_large_recommended'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Large Recommended'),
+    '#default_value' => variable_get('elite_sizing_large_recommended', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_large_strongly_recommended'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Large Strongly Recommended'),
+    '#default_value' => variable_get('elite_sizing_large_strongly_recommended', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_small_10'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Small 10 hour'),
+    '#default_value' => variable_get('elite_sizing_small_10', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_small_15'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Small 15 hour'),
+    '#default_value' => variable_get('elite_sizing_small_15', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_large_50'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Large 50%'),
+    '#default_value' => variable_get('elite_sizing_large_50', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_large_75'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Large 75%'),
+    '#default_value' => variable_get('elite_sizing_large_75', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_large_100'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Large 100%'),
+    '#default_value' => variable_get('elite_sizing_large_100', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+  
+  $form['elite_sizing_approval_required'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Approval Required'),
+    '#default_value' => variable_get('elite_sizing_approval_required', 0),
+    '#size' => 2,
+    '#maxlength' => 2,
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+function elite_sizing_admin_validate($form, &$form_state) {
+  $elite_sizing_large_recommended = $form_state['values']['elite_sizing_large_recommended'];
+  if (!is_numeric($elite_sizing_large_recommended)) {
+    form_set_error('elite_sizing_large_recommended', t('You must enter an integer.'));
+  }
+  elseif ($elite_sizing_large_recommended < 0) {
+    form_set_error('elite_sizing_large_recommended', t('Cannot be less than zero.'));
+  }
+}
